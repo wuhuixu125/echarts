@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--1.引入百度地图账号js文件  -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=Gcb8Ss9yXrobWXxBuz1lrqCZO34kZ2Hj"></script>
+    <style>
+        #container{
+            width: 1000px;
+            height: 500px;
+            border: 1px solid #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- 2.创建地图容器元素 -->
+    <div id="container"></div> 
+
+    <!-- 3.创建地图实例 -->
+    <script>
+        //1.创建地图实例
+          var map=new BMap.Map('container');
+              
+        //2.设置中心点坐标  天安门：116.404, 39.915 经纬度点
+        var point=new BMap.Point(116.404, 39.915); 
+        //3.地图初始化，同时设置地图展示级别 3-19
+        map.centerAndZoom(point, 15);     
+        //4.开启鼠标滚轮事件
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+        //5.向地图添加控件  Map.addControl()
+        //5.1 平移缩放控件	NavigationControl
+        map.addControl(new BMap.NavigationControl());
+        //5.2 缩略地图	OverviewMapControl
+        map.addControl(new BMap.OverviewMapControl())
+        //5.3 比例尺	ScaleControl	默认位于地图左下方，显示地图的比例关系
+        map.addControl(new BMap.ScaleControl())
+        //5.4 地图类型	MapTypeControl	默认位于地图右上方
+        map.addControl(new BMap.MapTypeControl())
+
+        //了解： 控件位置控制控件位置 
+        // var opts = {
+        //     anchor:BMAP_ANCHOR_TOP_RIGHT,
+        //     type: BMAP_NAVIGATION_CONTROL_SMALL
+        // }
+        // map.addControl(new BMap.NavigationControl(opts));
+
+
+    </script>
+    
+</body>
+</html>

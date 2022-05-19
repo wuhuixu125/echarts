@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='js/echarts.min.js'></script>
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .new {
+            border: 1px solid #999;
+            background: #fff;
+            width: 600px;
+            padding: 10px;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .title span {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 第一个echarts图表 -->
+    <div class="new">
+        <div class="title">新增的客户排名 <span>Y轴人数 </span></div>
+        <div id='main' style="width: 600px; height: 400px;"></div>
+    </div>
+
+    <!-- 第二个图表 -->
+    <div class="new">
+        <div class="title">跟进客户数排名 <span>Y轴人数 </span></div>
+        <div id='follow' style="width: 600px; height: 400px;"></div>
+    </div>
+
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        //第一个图表
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChart2 = echarts.init(document.getElementById('follow'));
+        //获取数据
+        $.ajax({
+            type: 'get',
+            url: 'homeWork/format.json',
+            success: function (res) {
+                console.log(res.result.data);
+                //新增客户数排名 
+                var new_ranking = res.result.data.new_ranking;
+                getNewRanking(new_ranking,myChart)
+
+                //跟进的客户
+                var follow=res.result.data.follow_ranking
+                getNewRanking(follow,myChart2);
+
+                //销售额
+
+                //销售量
+               
+            }
+        })
+        //新增客户数排名  --方法解析数据
+        function getNewRanking(arr,myChart) {//arr=[{},{},{},...]
+            console.log(arr);
+            //从数据里面获取x轴的数据和y轴数据  并且xy轴数据格式都是数组
+            var arrX = [], arrY = [];
+            for (var i = 0; i < arr.length; i++) {
+                arrX.push(arr[i].employee_name)
+                arrY.push(arr[i].num)
+            }
+            //配置图表参数
+            // 指定图表的配置项和数据
+            var option = {
+                tooltip: {},
+                grid: {
+                    top: 20,
+                    left: 20,
+                    bottom: 40,
+                    right: 20,
+                    containLabel: true
+                },
+                xAxis: {
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    // data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                    data: arrX
+                },
+                //dataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息
+                dataZoom:[
+                    {
+                        type :'slider',
+                        start:0,//数据窗口范围的起始百分比。范围是：0 ~ 100。表示 0% ~ 100%
+                        end:40,
+                    }
+                ],
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    itemStyle: {
+                        color: '#3080FF',
+                    },
+                    data: arrY
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+        }
+        
+
+
+    </script>
+</body>
+
+</html>

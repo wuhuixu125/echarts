@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src='js/echarts.min.js'></script>
+  <!-- gitHub搜索下载文件  （百度搜索这个js文件） -->
+  <script src='js/china.js'></script>
+</head>
+<body>
+  <div id="china_chart" style="width: 1000px;height:800px;border:1px solid #999;"></div>
+
+  <script charset="utf-8">
+    var myDate = new Date(); 
+    var china_chart = echarts.init(document.getElementById('china_chart'));
+    //数据纯属虚构  [{城市:数据,...}]
+    var data = [
+        {
+            name: '江苏',
+            value: 100
+        },
+        {
+            name: '北京',
+            value: 34
+        },
+        {
+            name: '上海',
+            value: 168
+        },
+        {
+            name: '重庆',
+            value: 233
+        },
+        {
+            name: '河北',
+            value: 324
+        },
+        {
+            name: '河南',
+            value:72
+        },
+        {
+            name: '云南',
+            value: 54
+        },
+        {
+            name: '辽宁',
+            value: 46
+        },
+        {
+            name: '黑龙江',
+            value: 98
+        },
+        {
+            name: '湖南',
+            value: 24
+        },
+        {
+            name: '安徽',
+            value: 33
+        },
+        {
+            name: '山东',
+            value: 54
+        },
+        {
+            name: '新疆',
+            value: 21
+        },
+        {
+            name: '浙江',
+            value: 153
+        },
+        {
+            name: '江西',
+            value: 252
+        },
+        {
+            name: '湖北',
+            value: 12
+        },
+        {
+            name: '广西',
+            value: 3.0
+        },
+        {
+            name: '甘肃',
+            value: 1.2
+        },
+        {
+            name: '山西',
+            value: 3.2
+        },
+        {
+            name: '内蒙古',
+            value: 3.5
+        },
+        {
+            name: '陕西',
+            value: 2.5
+        },
+        {
+            name: '吉林',
+            value: 4.5
+        },
+        {
+            name: '福建',
+            value: 2.8
+        },
+        {
+            name: '贵州',
+            value: 1.8
+        },
+        {
+            name: '广东',
+            value: 3.7
+        },
+        {
+            name: '青海',
+            value: 0.6
+        },
+        {
+            name: '西藏',
+            value: 0.4
+        },
+        {
+            name: '四川',
+            value: 3.3
+        },
+        {
+            name: '宁夏',
+            value: 0.8
+        },
+        {
+            name: '海南',
+            value: 1.9
+        },
+        {
+            name: '台湾',
+            value: 0.1
+        },
+        {
+            name: '香港',
+            value: 0.1
+        },
+        {
+            name: '澳门',
+            value: 0.1  
+        }
+    ];  
+   
+    var option = {
+        title: {
+            text: '排名情况',
+            textStyle: {
+                color: '#2D3E53',
+                fontSize: 18
+            },
+        },
+        tooltip: {//悬浮弹框 a b c 
+            formatter:'{b}:{c}',
+        },
+        visualMap: [{//visualMap 是视觉映射组件，用于进行『视觉编码 visualMap：图注样式定制，其中包括color范围，文字提示
+            type: 'piecewise',//分段型视觉映射组件
+             //自定义『分段式视觉映射组件（visualMapPiecewise）』的每一段的范围，以及每一段的文字
+             pieces:[
+                 // {min: 10, max: 200, label: '10 到 200（自定义label）'},
+                 {min:900,max:10000,label:'大于900人',color:'red'},
+                 {min:500,max:900,label:'人数在500-900之间',color:'green'},
+                 {min:100,max:500,label:'人数在100-500之间',color:'blue'},
+                 {min:5,max:99,label:'人数在10-100之间',color:'orange'},
+                 {min:0,max:10,label:'人数在0-10之间',color:'pink'},
+             ] ,
+            // color:['red','green','blue']
+        }],     
+        geo: {//地理坐标系组件 geo:定义地图为china 常用zoom
+            map: 'china',//地图类型。ECharts 3 中因为地图精度的提高，不再内置地图数据增大代码体积 map/js/china.js
+            // zoom:1,//视角缩放比例  
+            label:{
+                show:true
+            },     
+            emphasis:{//高亮
+              label: {//地图的标签名字
+                show: true
+              },
+              itemStyle: {//区域样式 hover样式
+                areaColor: 'pink'
+              }
+            }
+        },
+        series: [
+          {
+            name: '中国地图',//{a}{b}{c}
+            type: 'map',//地图
+            geoIndex: 0, //映射visualMap 颜色配置
+            data: data
+        }]
+    };
+    
+    china_chart.setOption(option);
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src='js/echarts.min.js'></script>
+  <!-- gitHub搜索下载文件  （百度搜索这个js文件） -->
+  <script src='js/china.js'></script>
+</head>
+<body>
+  <div id="china_chart" style="width: 1000px;height:800px;border:1px solid #999;"></div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script charset="utf-8">
+    var china_chart = echarts.init(document.getElementById('china_chart'));
+    // 获取数据
+    $.ajax({
+        type:'get',
+        url:'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5',
+        dataType:'jsonp',
+        success:function(res){
+            // console.log(res.data);  
+            var data=JSON.parse(res.data);  
+            console.log(data.areaTree[0].children);
+            var arr=data.areaTree[0].children;
+            //获取城市的数据 格式：数组=[{name:'北京',value:'300'},{},...]
+            var newArr=[];
+            for(var i=0;i<arr.length;i++){
+                var obj={};
+                obj.name=arr[i].name;
+                obj.value=arr[i].total.nowConfirm;
+                //追加到数组里面
+                newArr.push(obj);    
+            }
+            console.log(newArr);
+            setEcharts(newArr);//调用echarts配置项的方法        
+        },
+        error:function(){
+            console.log('请求失败');        
+        }
+    })
+
+   function setEcharts(data){
+    var option = {
+        title: {
+            text: '中国疫情地图分布',
+        },
+        tooltip: {//悬浮弹框 a b c 
+            formatter:'{b}:{c}',
+        },
+        visualMap: [{//visualMap 是视觉映射组件，用于进行『视觉编码 visualMap：图注样式定制，其中包括color范围，文字提示
+            type: 'piecewise',//分段型视觉映射组件
+            pieces: [
+                {min:500,max:1000,label:'确诊人数500-1000人',color:'#7f1100'},
+                {min:100,max:499,label:'确诊人数100-499人',color:'#E08150'},
+                {min:10,max:99,label:'确诊人数10-99人',color:'#E9B090'},
+                {min:1,max:9,label:'确诊人数1-9人',color:'#F2DDD2'},
+            ]
+        }],     
+        geo: {//地理坐标系组件 geo:定义地图为china 常用zoom
+            map: 'china',//地图类型。ECharts 3 中因为地图精度的提高，不再内置地图数据增大代码体积 map/js/china.js
+            // zoom:1,//视角缩放比例  
+            label:{
+                show:true
+            },     
+            emphasis:{//高亮
+              label: {//地图的标签名字
+                show: true
+              },
+              itemStyle: {//区域样式 hover样式
+                areaColor: 'pink'
+              }
+            }
+        },
+        series: [
+          {
+            name: '中国地图',//{a}{b}{c}
+            type: 'map',//地图
+            geoIndex: 0, //映射visualMap 颜色配置
+            data: data
+        }]
+    };
+    
+    china_chart.setOption(option);
+   }
+  </script>
+</body>
+</html>

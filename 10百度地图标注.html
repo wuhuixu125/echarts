@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--1.引入百度地图账号js文件  -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=Gcb8Ss9yXrobWXxBuz1lrqCZO34kZ2Hj"></script>
+    <style>
+        #container{
+            width: 1000px;
+            height: 500px;
+            border: 1px solid #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- 2.创建地图容器元素 -->
+    <div id="container"></div> 
+
+    <!-- 3.创建地图实例 -->
+    <script>
+        //1.创建地图实例
+        //位于BMap命名空间下的Map类表示地图，通过new操作符可以创建一个地图实例
+        var map=new BMap.Map('container');  
+        var point=new BMap.Point(116.406, 39.915); 
+        map.centerAndZoom(point, 15); 
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+        //1.点	Marker	表示地图上的点，可自定义标注的图标
+        // var marker = new BMap.Marker(new BMap.Point(116.406, 39.915)); // 创建标注    
+        var marker = new BMap.Marker(point);        // 创建标注    
+        map.addOverlay(marker);                     // 将标注添加到地图中 
+
+        //2.定义标注图标  Icon类
+        // var myIcon = new BMap.Icon("img/marks.png", new BMap.Size(30,50));
+        //  // 创建标注对象并添加到地图   
+        // var marker = new BMap.Marker(new BMap.Point(116.409, 39.915), {icon: myIcon});    
+        // map.addOverlay(marker);
+
+        //3.点击事件
+        marker.addEventListener("click", function(){    
+            alert("您点击了标注");    
+        });  
+
+
+    
+
+
+    </script>
+    
+</body>
+</html>

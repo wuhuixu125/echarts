@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='js/echarts.min.js'></script>
+</head>
+
+<body>
+    <div id='main' style="width: 600px; height: 400px;border: 1px solid #999;"></div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            tooltip: {//弹框
+                trigger: 'item',// 饼图
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {//系列名称
+                orient: 'vertical',//垂直
+                left: 10,
+                data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+            },
+            series: [
+                {
+                    name: '访问来源',//系列名字
+                    type: 'pie',//饼图
+                    //饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标
+                    center:['50%', '50%'],
+                    radius: ['50%', '70%'],//饼图的半径
+                    // radius:'70%',
+                    // radius:['0','70%'],
+                    // avoidLabelOverlap: false,//是否启用防止标签重叠策略，默认开启
+                    // label: {
+                    //     show: false,
+                    //     position: 'center'
+                    // },
+                    // emphasis: {
+                    //     label: {
+                    //         show: true,
+                    //         fontSize: '30',
+                    //         fontWeight: 'bold'
+                    //     }
+                    // },
+                    // labelLine: {
+                    //     show: false
+                    // },
+                    data: [//数据格式：data=[{},{},{}]
+                        { value: 335, name: '直接访问' },
+                        { value: 310, name: '邮件营销' },
+                        { value: 234, name: '联盟广告' },
+                        { value: 135, name: '视频广告' },
+                        { value: 1548, name: '搜索引擎' }
+                    ]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+
+    </script>
+</body>
+
+</html>
